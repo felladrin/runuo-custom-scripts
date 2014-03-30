@@ -4,7 +4,7 @@ I always wanted to see all the players making a good use of the profile system. 
 
 ## How it works ##
 
-The player types [look and click on a player's character, then the paperdoll and a description gump will show up.
+The player types `[look` and click on a player's character, then the paperdoll and a description gump will show up.
 
 ## Installation ##
 
