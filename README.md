@@ -18,7 +18,10 @@ Allows players to add new party members from anywhere.
 And what if the characters could get older over time?
 
 **Alt Command**<br/>
-Easily alternates, between True or False, one or more property by name of a targeted object. 
+Easily alternates, between True or False, one or more property by name of a targeted object.
+
+**Auto Ignite Lights**<br/>
+Automatically ignites all game lights when night comes, and douse them at the morning.
 
 **Auto Sheathe Weapon**<br/>
 Automatically sheathes or unsheathes player's weapon when they change warmode. 
