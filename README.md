@@ -73,8 +73,6 @@ Easy way to show your players who is officially a staff member
 RunUO Homepage: [http://runuo.com](http://www.runuo.com/)<br/>
 My RunUO Profile: [Felladrin](http://www.runuo.com/community/members/felladrin.136025/)
 
-### Retribute ###
+If you like my scripts, please consider flattring this repository :)
 
-If you like my scripts, please consider buying me a coffee :)
-
-[![Buy Me A Coffee @ ko-fi.com](http://ko-fi.com/img/buymeacoffee.png)](http://ko-fi.com?i=8d11a11fe461710)
+[![Flattr this repository](http://api.flattr.com/button/flattr-badge-large.png)](https://flattr.com/submit/auto?user_id=Felladrin&url=https%3A%2F%2Fgithub.com%2Ffelladrin%2Frunuo-custom-scripts)
