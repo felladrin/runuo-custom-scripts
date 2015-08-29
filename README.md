@@ -8,71 +8,65 @@ All scripts are released under GPLv2 license ([http://www.gnu.org/licenses/gpl-2
 
 ## Scripts List ##
 
-**AFK Command [ProTag Extension]**<br/>
+**AFK Command [ProTag Extension]**  
 Let people around know you are AFK. [Exemplify the use of ProTags]
 
-**AddToParty Command**<br/>
+**AddToParty Command**  
 Allows players to add new party members from anywhere.
 
-**Age System**<br/>
+**Age System**  
 And what if the characters could get older over time?
 
-**Alt Command**<br/>
+**Alt Command**  
 Easily alternates, between True or False, one or more property by name of a targeted object.
 
-**Auto Ignite Lights**<br/>
+**Auto Ignite Lights**  
 Automatically ignites all game lights when night comes, and douse them at the morning.
 
-**Auto Sheathe Weapon**<br/>
+**Auto Sheathe Weapon**  
 Automatically sheathes or unsheathes player's weapon when they change warmode. 
 
-**ChangeSeason Command**<br/>
+**ChangeSeason Command**  
 Changes the current season of all facets to the specified one. 
 
-**Chat Initializer**<br/>
+**Chat Initializer**  
 Auto opens the old chat client (UO 5.x / 6.x) on player login. 
 
-**ClearOtherFacets Command**<br/>
+**ClearOtherFacets Command**  
 Helps to keep the world clean if you use only one facet in your shard. 
 
-**GameTime Gold Reward**<br/>
+**GameTime Gold Reward**  
 Reward your players with gold for being online. 
 
-**Global Bulletin Board (Incomplete)**<br/>
+**Global Bulletin Board (Incomplete)**  
 Attempt to make something like an in-game forum. 
 
-**Global Donation Box**<br/>
+**Global Donation Box**  
 Encourage the donation of items between your players. 
 
-**Kudos - Exchangeable Game Time Reward**<br/>
+**Kudos - Exchangeable Game Time Reward**  
 An item given to players for each period of time they stay online. 
 
-**Look Command**<br/>
+**Look Command**  
 Make a better use of the profile system. 
 
-**Number of Followers based on Intelligence**<br/>
+**Number of Followers based on Intelligence**  
 Player's max number of followers based on intelligence. 
 
-**Play Music On Login**<br/>
+**Play Music On Login**  
 Plays a specific or random music for players on login. 
 
-**ProTag - PlayerMobile Tag-Based Properties**<br/>
+**ProTag - PlayerMobile Tag-Based Properties**  
 Plug & Play System to save custom PlayerMobile properties. 
 
-**Running Fatigue**<br/>
+**Running Fatigue**  
 Plug & Play system to make players get tired while running. 
 
-**Shard Statistics**<br/>
+**RunUO Book Code Generator**  
+RunUO Book Code Generator allows people to generate the code (C# script) of a book by simply filling out a form in the browser. Project can be found at [http://github.com/felladrin/runuo-book-code-generator](http://github.com/felladrin/runuo-book-code-generator).
+
+**Shard Statistics**  
 Collects and displays shard statistics. You can also use them on custom scripts. 
 
-**Staff level under character's name**<br/>
-Easy way to show your players who is officially a staff member 
-
-## Some Links ##
-
-RunUO Homepage: [http://runuo.com](http://www.runuo.com/)<br/>
-My RunUO Profile: [Felladrin](http://www.runuo.com/community/members/felladrin.136025/)
-
-If you like my scripts, please consider flattring this repository :)
-
-[![Flattr this repository](http://api.flattr.com/button/flattr-badge-large.png)](https://flattr.com/submit/auto?user_id=Felladrin&url=https%3A%2F%2Fgithub.com%2Ffelladrin%2Frunuo-custom-scripts)
+**Staff level under character's name**  
+Easy way to show your players who is officially a staff member.
