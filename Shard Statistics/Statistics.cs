@@ -1,5 +1,5 @@
-﻿//   ___|========================|___
-//   \  |  Written by Felladrin  |  /   Shard Statistics - Current version: 1.3 (September 10, 2013)
+//   ___|========================|___
+//   \  |  Written by Felladrin  |  /   Shard Statistics - Current version: 1.4 (December 3, 2015)
 //    > |      August 2013       | <
 //   /__|========================|__\   Description: Collects and displays shard statistics.
 
@@ -165,7 +165,7 @@ namespace Server
             }
 
             m_ShardAge = DateTime.Now - shardCreation;
-            m_Uptime = DateTime.Now - Clock.ServerStart;
+            m_Uptime = DateTime.UtcNow - Clock.ServerStart;
             m_LastRestart = Clock.ServerStart;
             m_LastStatsUpdate = DateTime.Now;
             m_ActiveAccounts = Accounts.Count;
@@ -175,9 +175,9 @@ namespace Server
             StatsList.Add(String.Format("Shard Age: {0:n0} days, {1:n0} hours and {2:n0} minutes", m_ShardAge.Days, m_ShardAge.Hours, m_ShardAge.Minutes));
             StatsList.Add(String.Format("Total Game Time: {0:n0} hours and {1:n0} minutes", m_TotalGameTime.TotalHours, m_TotalGameTime.Minutes));
             StatsList.Add(String.Format("Last Restart: {0}", m_LastRestart));
-            StatsList.Add(String.Format("Uptime: {0:n0} days, {1:n0} hours and {2:n0} minutes", m_Uptime.Days, m_Uptime.Hours, m_Uptime.Minutes));
+            StatsList.Add(String.Format("Uptime: {0:D2} days, {1:D2} hours and {2:D2} minutes", m_Uptime.Days, m_Uptime.Hours, m_Uptime.Minutes));
             StatsList.Add(String.Format("Active Accounts: {0:n0} [{1:n0} Players Online]", m_ActiveAccounts, m_PlayersOnline));
-            StatsList.Add(String.Format("Active Staff Members: {0:n0} [{1:n0} Online]", m_ActiveStaffMembers, m_StaffOnline));
+            StatsList.Add(String.Format("Active Staff Members: {0:n0} [{1:n0} Staff Online]", m_ActiveStaffMembers, m_StaffOnline));
             StatsList.Add(String.Format("Active Parties: {0:n0} [{1:n0} Players]", m_ActiveParties, m_PlayersInParty));
             StatsList.Add(String.Format("Active Guilds: {0:n0}", m_ActiveGuilds));
             StatsList.Add(String.Format("Player Houses: {0:n0}", m_PlayerHouses));
