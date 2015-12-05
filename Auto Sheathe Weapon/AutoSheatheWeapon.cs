@@ -1,5 +1,5 @@
-﻿//   ___|========================|___
-//   \  |  Written by Felladrin  |  /   Auto Sheathe Weapon - Current version: 1.2 (September 10, 2013)
+//   ___|========================|___
+//   \  |  Written by Felladrin  |  /   Auto Sheathe Weapon - Current version: 1.3 (December 5, 2015)
 //    > |      August 2013       | <
 //   /__|========================|__\   Description: Sheathes or unsheathes player's weapon based on their war mode.
 //
@@ -38,7 +38,7 @@ namespace Server.Items
         }
 
         [Usage("AutoSheathe")]
-        [Description("Enables o disables the weapon auto-sheathe feature.")]
+        [Description("Enables or disables the weapon auto-sheathe feature.")]
         private static void OnToggleAutoSheathe(CommandEventArgs e)
         {
             Mobile m = e.Mobile;
@@ -75,7 +75,7 @@ namespace Server.Items
 
         public static void From(Mobile m)
         {
-            if (m.Backpack == null)
+            if (m.Backpack == null || !m.Alive)
                 return;
 
             int key = m.Serial.Value;
