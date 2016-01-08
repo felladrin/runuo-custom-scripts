@@ -1,31 +1,44 @@
-﻿//   ___|========================|___
-//   \  |  Written by Felladrin  |  /   This script was released on RunUO Forums under the GPL licensing terms.
-//    > |      August 2013       | <
-//   /__|========================|__\   [Auto Ignite Lights] - Current version: 1.0 (August 18, 2013)
+﻿// Auto Ignite Lights v1.1.0
+// Author: Felladrin
+// Started: 2013-08-18
+// Updated: 2016-01-06
 
-namespace Server.Items
+using System;
+using Server;
+using Server.Items;
+
+namespace Felladrin.Automations
 {
-    public class AutoIgniteLights
+    public class AutoIgniteLights : Timer
     {
-        public static class Settings
+        public static class Config
         {
-            public static bool Enabled = true; // Is this system enabled?
-            public static int IgniteHour = 18; // At what hour should we ignite the lights?
-            public static int DouseHour = 7; // At what hour should we douse the lights?
-            public static int CheckInterval = 5; // How often, in minutes, should we check the lights?
+            public static bool Enabled = true;   // Is this system enabled?
+            public static int IgniteHour = 18;   // At what hour should we ignite the lights?
+            public static int DouseHour = 7;     // At what hour should we douse the lights?
         }
 
         public static void Initialize()
         {
-            if (Settings.Enabled)
-                CheckLights();
+            if (Config.Enabled && !Started)
+            {
+                new AutoIgniteLights().Start();
+                Started = true;
+            }
         }
 
-        public static void CheckLights()
+        protected static bool Started;
+
+        protected AutoIgniteLights() : base(TimeSpan.Zero, TimeSpan.FromSeconds(Clock.SecondsPerUOMinute * 60))
+        {
+            Priority = TimerPriority.OneMinute;
+        }
+
+        protected override void OnTick()
         {
             foreach (Item item in World.Items.Values)
             {
-                if (item is BaseLight && item.ParentEntity == null)
+                if (item is BaseLight && item.Parent == null)
                 {
                     BaseLight light = item as BaseLight;
 
@@ -33,18 +46,16 @@ namespace Server.Items
 
                     Clock.GetTime(light.Map, light.X, light.Y, out currentHour, out currentMinute);
 
-                    if (currentHour > Settings.IgniteHour || currentHour < Settings.DouseHour)
+                    if (currentHour > Config.IgniteHour || currentHour < Config.DouseHour)
                     {
                         light.Ignite();
                     }
-                    else if (currentHour > Settings.DouseHour || currentHour < Settings.IgniteHour)
+                    else if (currentHour > Config.DouseHour || currentHour < Config.IgniteHour)
                     {
                         light.Douse();
                     }
                 }
             }
-
-            Timer.DelayCall(System.TimeSpan.FromMinutes(Settings.CheckInterval), delegate { CheckLights(); });
         }
     }
 }
