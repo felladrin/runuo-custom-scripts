@@ -28,7 +28,7 @@ namespace Felladrin.Commands
         }
 
         [Usage("WalkTo")]
-        [Description("Commands a NPC to walk to a targeted spot. If Multiple Waypoints Mode is enabled, you can sequentially target spots to make the creature follow a complex path.")]
+        [Description("Makes a NPC follow the path you create by targeting spots in sequence.")]
         static void OnCommand(CommandEventArgs e)
         {
             e.Mobile.Target = new WalkToTarget();
