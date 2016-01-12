@@ -1,16 +1,16 @@
-## ChangeSeason Command ##
+## ChangeSeason Command
 
-This is a simple command for Administrators to change the season of all facets at once.
+This is a simple command for Administrators to change the season of their current map.
 
-### Usage ###
+### Usage
 
 > [ChangeSeason [Spring|Summer|Autumn|Winter|Desolation]
 
-### Example ###
+### Example
 
 > **[ChangeSeason Summer**<br/>
-> Will bring the summer to all facets.
+> Will bring the summer to the current map.
 
-### Installation ###
+### Installation
 
 Just drop it somewhere in your Scripts folder. 

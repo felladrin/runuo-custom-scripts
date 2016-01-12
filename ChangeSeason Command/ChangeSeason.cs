@@ -1,11 +1,15 @@
-//   ___|========================|___
-//   \  |  Written by Felladrin  |  /   This script was released on RunUO Community under the GPL licensing terms.
-//    > |      August 2013       | <
-//   /__|========================|__\   [Change Season] - Current version: 1.0 (August 17, 2013)
+// ChangeSeason Command v1.1.0
+// Author: Felladrin
+// Started: 2013-08-17
+// Updated: 2016-01-04
 
-namespace Server.Commands
+using Server;
+using Server.Commands;
+using Server.Network;
+
+namespace Felladrin.Commands
 {
-    public class ChangeSeason
+    public static class ChangeSeason
     {
         public static void Initialize()
         {
@@ -13,12 +17,14 @@ namespace Server.Commands
         }
 
         [Usage("ChangeSeason [Spring|Summer|Autumn|Winter|Desolation]")]
-        [Description("Changes the current season of all facets to the specified one.")]
+        [Description("Changes the season of your current map.")]
         public static void ChangeSeason_OnCommand(CommandEventArgs e)
         {
+            Mobile m = e.Mobile;
+            
             if (e.Length != 1)
             {
-                e.Mobile.SendMessage("Usage: [ChangeSeason [Spring|Summer|Autumn|Winter|Desolation]");
+                m.SendMessage("Usage: [ChangeSeason [Spring|Summer|Autumn|Winter|Desolation]");
                 return;
             }
 
@@ -43,23 +49,23 @@ namespace Server.Commands
                     season = 4;
                     break;
                 default:
-                    e.Mobile.SendMessage("Usage: [ChangeSeason [Spring|Summer|Autumn|Winter|Desolation]");
+                    m.SendMessage("Usage: [ChangeSeason [Spring|Summer|Autumn|Winter|Desolation]");
                     return;
             }
 
-            foreach (Map map in Map.AllMaps)
+            Map map = m.Map;
+            map.Season = season;
+
+            foreach (NetState ns in NetState.Instances)
             {
-                map.Season = season;
+                if (ns.Mobile == null || ns.Mobile.Map != map)
+                    continue;
 
-                foreach (Network.NetState ns in Network.NetState.Instances)
-                {
-                    if (ns.Mobile == null)
-                        continue;
-
-                    ns.Send(Network.SeasonChange.Instantiate(ns.Mobile.GetSeason(), true));
-                    ns.Mobile.SendEverything();
-                }
+                ns.Send(SeasonChange.Instantiate(ns.Mobile.GetSeason(), true));
+                ns.Mobile.SendEverything();
             }
+
+            m.SendMessage("{0} season changed to {1}.", map.Name, e.GetString(0));
         }
     }
 }
