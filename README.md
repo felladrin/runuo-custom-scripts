@@ -4,7 +4,7 @@ A collection of all RunUO custom scripts I've developed, most of them Plug & Pla
 
 Just navigate through the folders to get details of each script.
 
-All scripts are released under GPLv2 license ([http://www.gnu.org/licenses/gpl-2.0.html](http://www.gnu.org/licenses/gpl-2.0.html)).
+All scripts are released under GPLv2 license (<http://www.gnu.org/licenses/gpl-2.0.html>).
 
 ## Scripts List ##
 
@@ -42,7 +42,10 @@ Reward your players with gold for being online.
 Attempt to make something like an in-game forum. 
 
 **Global Donation Box**  
-Encourage the donation of items between your players. 
+Encourage the donation of items between your players.
+
+**History Command**  
+Player command to open an auto-refreshed gump with the history of what they've said and heard.
 
 **Kudos - Exchangeable Game Time Reward**  
 An item given to players for each period of time they stay online. 
@@ -70,3 +73,6 @@ Collects and displays shard statistics. You can also use them on custom scripts.
 
 **Staff level under character's name**  
 Easy way to show your players who is officially a staff member.
+
+**WalkTo Command**  
+Makes a NPC follow the path you create by targeting spots in sequence.
