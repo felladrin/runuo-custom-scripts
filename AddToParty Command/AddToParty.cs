@@ -1,43 +1,45 @@
-//   ___|========================|___
-//   \  |  Written by Felladrin  |  /   [AddToParty Command] - Current version: 1.0 (November 21, 2013)
-//    > |     November 2013      | < 
-//   /__|========================|__\   Description: Allows players to add new party members from anywhere.
+// AddToParty Command v1.1.0
+// Description: Allows players to add new party members from anywhere.
+// Author: Felladrin
+// Created at 2013-11-21
+// Updated at 2016-01-01
 
 using System;
 using System.Collections.Generic;
+using Server;
+using Server.Commands;
 using Server.Engines.PartySystem;
+using Server.Factions;
 using Server.Gumps;
 using Server.Network;
-using Server.Factions;
 
-namespace Server.Commands
+namespace Felladrin.Commands
 {
-    public class AddToPartyCommand
+    public static class AddToParty
     {
         public static class Config
         {
-            public static bool Enabled = true; // Is this command enabled?
-            public static bool OnlyLeadersCanAdd = true; // New party members can only be added by the party leader?
+            public static bool Enabled = true;              // Is this command enabled?
+            public static bool OnlyLeadersCanAdd = true;    // New party members can only be added by the party leader?
         }
 
         public static void Initialize()
         {
             if (Config.Enabled)
-                CommandSystem.Register("AddToParty", AccessLevel.Player, new CommandEventHandler(AddToParty_OnCommand));
+                CommandSystem.Register("AddToParty", AccessLevel.Player, new CommandEventHandler(OnCommand));
         }
 
         [Usage("AddToParty <Name>")]
         [Description("Used to add a player to your party. Optionally you can provide a name to filter.")]
-        public static void AddToParty_OnCommand(CommandEventArgs e)
+        public static void OnCommand(CommandEventArgs e)
         {
             e.Mobile.CloseGump(typeof(AddToPartyGump));
             e.Mobile.SendGump(new AddToPartyGump(e.Mobile, e.ArgString));
-            e.Mobile.SendMessage("Who would you like to add to your party?");
         }
 
         public class PartyInvitationGump : Gump
         {
-            private Mobile m_Target, m_From;
+            Mobile m_Target, m_From;
 
             public PartyInvitationGump(Mobile from, Mobile target)
                 : base(0, 0)
@@ -48,10 +50,10 @@ namespace Server.Commands
                 DeclineTimer.Start(target, from);
                 Timer.DelayCall(TimeSpan.FromSeconds(30), delegate { target.CloseGump(typeof(PartyInvitationGump)); });
 
-                this.Closable = false;
-                this.Disposable = false;
-                this.Dragable = true;
-                this.Resizable = false;
+                Closable = false;
+                Disposable = false;
+                Dragable = true;
+                Resizable = false;
 
                 AddPage(0);
                 AddBackground(11, 318, 225, 239, 9270);
@@ -121,28 +123,28 @@ namespace Server.Commands
             public static readonly int EntryHeight = PropsConfig.EntryHeight;
             public static readonly int BorderSize = PropsConfig.BorderSize;
 
-            private static bool PrevLabel = false, NextLabel = false;
+            static bool PrevLabel, NextLabel;
 
-            private static readonly int PrevLabelOffsetX = PrevWidth + 1;
-            private static readonly int PrevLabelOffsetY = 0;
+            static readonly int PrevLabelOffsetX = PrevWidth + 1;
+            static readonly int PrevLabelOffsetY = 0;
 
-            private static readonly int NextLabelOffsetX = -29;
-            private static readonly int NextLabelOffsetY = 0;
+            static readonly int NextLabelOffsetX = -29;
+            static readonly int NextLabelOffsetY = 0;
 
-            private static readonly int EntryWidth = 180;
-            private static readonly int EntryCount = 15;
+            static readonly int EntryWidth = 180;
+            static readonly int EntryCount = 15;
 
-            private static readonly int TotalWidth = OffsetSize + EntryWidth + OffsetSize + SetWidth + OffsetSize;
-            private static readonly int TotalHeight = OffsetSize + ((EntryHeight + OffsetSize) * (EntryCount + 1));
+            static readonly int TotalWidth = OffsetSize + EntryWidth + OffsetSize + SetWidth + OffsetSize;
+            static readonly int TotalHeight = OffsetSize + ((EntryHeight + OffsetSize) * (EntryCount + 1));
 
-            private static readonly int BackWidth = BorderSize + TotalWidth + BorderSize;
-            private static readonly int BackHeight = BorderSize + TotalHeight + BorderSize;
+            static readonly int BackWidth = BorderSize + TotalWidth + BorderSize;
+            static readonly int BackHeight = BorderSize + TotalHeight + BorderSize;
 
-            private Mobile m_Owner;
-            private List<Mobile> m_Mobiles;
-            private int m_Page;
+            Mobile m_Owner;
+            readonly List<Mobile> m_Mobiles;
+            int m_Page;
 
-            private class InternalComparer : IComparer<Mobile>
+            class InternalComparer : IComparer<Mobile>
             {
                 public static readonly IComparer<Mobile> Instance = new InternalComparer();
 
@@ -179,9 +181,56 @@ namespace Server.Commands
                 {
                     owner.SendMessage(38, "There are no players available to invite.");
                 }
+                else if (m_Mobiles.Count == 1)
+                {
+                    Mobile m = m_Mobiles[0];
+
+                    Party p = Party.Get(owner);
+                    Party mp = Party.Get(m);
+
+                    if (owner == m)
+                        owner.SendLocalizedMessage(1005439); // You cannot add yourself to a party.
+                    else if (Config.OnlyLeadersCanAdd && p != null && p.Leader != owner)
+                        owner.SendLocalizedMessage(1005453); // You may only add members to the party if you are the leader.
+                    else if (p != null && (p.Members.Count + p.Candidates.Count) >= Party.Capacity)
+                        owner.SendLocalizedMessage(1008095); // You may only have 10 in your party (this includes candidates).
+                    else if (!m.Player)
+                        owner.SendLocalizedMessage(1005444); // The creature ignores your offer.
+                    else if (mp != null && mp == p)
+                        owner.SendLocalizedMessage(1005440); // This person is already in your party!
+                    else if (mp != null)
+                        owner.SendLocalizedMessage(1005441); // This person is already in a party!
+                    else
+                    {
+                        Faction ourFaction = Faction.Find(owner);
+                        Faction theirFaction = Faction.Find(m);
+
+                        if (ourFaction != null && theirFaction != null && ourFaction != theirFaction)
+                        {
+                            owner.SendLocalizedMessage(1008088); // You cannot have players from opposing factions in the same party!
+                            m.SendLocalizedMessage(1008093); // The party cannot have members from opposing factions.
+                            return;
+                        }
+
+                        if (p == null)
+                            owner.Party = p = new Party(owner);
+
+                        if (!p.Candidates.Contains(m))
+                            p.Candidates.Add(m);
+
+                        m.SendGump(new PartyInvitationGump(owner, m));
+
+                        m.Send(new PartyInvitation(owner));
+
+                        m.Party = owner;
+
+                        owner.SendMessage(68, "Invitation sent to {0}.", m.Name);
+                    }
+                }
                 else
                 {
-                    Initialize(page);
+                    InitializeGump(page);
+                    owner.SendMessage("Who would you like to add to your party?");
                 }
             }
 
@@ -207,6 +256,9 @@ namespace Server.Commands
                         if (m == owner || m.AccessLevel > AccessLevel.Player)
                             continue;
 
+                        if (owner.Party != null && owner.Party == m.Party)
+                            continue;
+
                         list.Add(m);
                     }
                 }
@@ -216,7 +268,7 @@ namespace Server.Commands
                 return list;
             }
 
-            public void Initialize(int page)
+            public void InitializeGump(int page)
             {
                 m_Page = page;
 
@@ -242,7 +294,7 @@ namespace Server.Commands
                 if (!OldStyle)
                     AddImageTiled(x - (OldStyle ? OffsetSize : 0), y, emptyWidth + (OldStyle ? OffsetSize * 2 : 0), EntryHeight, EntryGumpID);
 
-                AddLabel(x + TextOffsetX, y, TextHue, String.Format("Add who? (Page {1}/{2})", m_Mobiles.Count, page + 1, (m_Mobiles.Count + EntryCount - 1) / EntryCount));
+                AddLabel(x + TextOffsetX, y, TextHue, String.Format("Add who? (Page {0}/{1})", page + 1, (m_Mobiles.Count + EntryCount - 1) / EntryCount));
 
                 x += emptyWidth + OffsetSize;
 
@@ -292,17 +344,20 @@ namespace Server.Commands
                 }
             }
 
-            private static int GetHueFor(Mobile m)
+            static int GetHueFor(Mobile m)
             {
                 switch (m.AccessLevel)
                 {
                     case AccessLevel.Owner:
                     case AccessLevel.Developer:
-                    case AccessLevel.Administrator: return 0x516;
-                    case AccessLevel.Seer: return 0x144;
-                    case AccessLevel.GameMaster: return 0x21;
-                    case AccessLevel.Counselor: return 0x2;
-                    case AccessLevel.Player:
+                    case AccessLevel.Administrator:
+                        return 0x516;
+                    case AccessLevel.Seer:
+                        return 0x144;
+                    case AccessLevel.GameMaster:
+                        return 0x21;
+                    case AccessLevel.Counselor:
+                        return 0x2;
                     default:
                         {
                             if (m.Kills >= 5)
@@ -315,9 +370,9 @@ namespace Server.Commands
                 }
             }
 
-            public override void OnResponse(NetState state, RelayInfo info)
+            public override void OnResponse(NetState sender, RelayInfo info)
             {
-                Mobile from = state.Mobile;
+                Mobile from = sender.Mobile;
 
                 switch (info.ButtonID)
                 {
