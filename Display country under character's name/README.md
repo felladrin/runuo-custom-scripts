@@ -16,7 +16,7 @@ Then open `PlayerMobile.cs` and find the *Target Block*:
 
 **Above** the *Target Block* (Outside the GetProperties method), add:
 
-    #region Display country under character name
+    #region Display country under character's name
     string m_Country;
     bool m_TriedToGetCountry;
     public string Country
@@ -36,7 +36,7 @@ Then open `PlayerMobile.cs` and find the *Target Block*:
 
 **Below** the *Target Block* (Inside the GetProperties method), add:
 
-    #region Display country under character name
+    #region Display country under character's name
     if (Country != null)
     {
         list.Add(1060658, "{0}\t{1}", "From", Country);
