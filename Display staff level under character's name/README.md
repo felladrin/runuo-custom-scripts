@@ -1,8 +1,8 @@
-## Instructions ##
+## Display staff level under character's name
 
 This is a fast mod to let your players know who is officially member of the staff.
 
-![[IMG]](http://i.imgur.com/qp6srIr.png)
+![[]](screenshot.png)
 
 All you need to do is to open **PlayerMobile.cs** and look for the line:
 
