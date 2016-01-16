@@ -8,13 +8,13 @@ This script displays the player country based on their client's language code.
 
 Download `Country.cs` and drop it anywhere inside your scripts folder.
 
-Then open `PlayerMobile.cs` and find:
+Then open `PlayerMobile.cs` and find the *Target Block*:
 
     public override void GetProperties(ObjectPropertyList list)
     {
         base.GetProperties(list);
 
-**Above** that lines, add:
+**Above** the *Target Block* (Outside the GetProperties method), add:
 
     #region Display country under character name
     string m_Country;
@@ -34,7 +34,7 @@ Then open `PlayerMobile.cs` and find:
     }
     #endregion
 
-**Below** that lines, add:
+**Below** the *Target Block* (Inside the GetProperties method), add:
 
     #region Display country under character name
     if (Country != null)
