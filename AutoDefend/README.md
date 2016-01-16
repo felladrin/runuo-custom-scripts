@@ -1,7 +1,7 @@
 ## AutoDefend
 
-This script makes playermobiles to auto defend themselves when attacked. They will always counter-attack the closest aggressor.
+This script makes PlayerMobiles automatically focus and attack their closest aggressor.
 
-It comes enabled for all accounts by default, but players can disable the feature for their accounts by using the command `[AutoDefend` to toogle it.
+It comes enabled for all accounts by default, but players can disable this feature for their accounts by using the command `[AutoDefend` to toggle it.
 
 To install, just drop this script anywhere inside your Scripts folder.
