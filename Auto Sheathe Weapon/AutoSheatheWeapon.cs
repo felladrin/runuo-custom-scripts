@@ -1,45 +1,54 @@
-//   ___|========================|___
-//   \  |  Written by Felladrin  |  /   Auto Sheathe Weapon - Current version: 1.3 (December 5, 2015)
-//    > |      August 2013       | <
-//   /__|========================|__\   Description: Sheathes or unsheathes player's weapon based on their war mode.
-//
-//  Installation: In PlayerMobile.cs find the method OnWarmodeChanged() and add into it the line: AutoSheatheWeapon.From(this);
+﻿// AutoDefend v1.4.0
+// Author: Felladrin
+// Started: 2013-08-14
+// Updated: 2016-01-17
+
+// Installation:
+// In PlayerMobile.cs find the method OnWarmodeChanged() and add into it the line:
+// Felladrin.Automations.AutoSheatheWeapon.From(this);
 
 using System;
 using System.Collections.Generic;
+using Server;
 using Server.Commands;
+using Server.Items;
+using Server.Network;
 
-namespace Server.Items
+namespace Felladrin.Automations
 {
-    class AutoSheatheWeapon
+    static class AutoSheatheWeapon
     {
         public static class Config
         {
-            public static bool SendOverheadMessage = true; // Should we send a overhead message to the player about the auto-sheathe?
-            public static bool AllowPlayerToggle = true;   // Should we allow player to use a command to toggle the auto-sheathe?
+            public static bool Enabled = true;                // Is this system enabled?
+            public static bool SendOverheadMessage = true;    // Should we send a overhead message to the player about the auto-sheathe?
+            public static bool AllowPlayerToggle = true;      // Should we allow player to use a command to toggle the auto-sheathe?
         }
 
-        private static Type[] ItemTypesToKeepEquiped = new Type[]
-        {
+        static Type[] ItemTypesToKeepEquiped = {
             typeof(BaseShield),
+            typeof(BaseLight),
             typeof(Spellbook)
         };
 
-        private static Dictionary<int, Item> PlayerWeapons = new Dictionary<int, Item>();
+        static Dictionary<int, Item> PlayerWeapons = new Dictionary<int, Item>();
 
-        private static List<int> DisabledPlayers = new List<int>();
+        static List<int> DisabledPlayers = new List<int>();
 
         public static void Initialize()
         {
-            EventSink.Logout += new LogoutEventHandler(OnPlayerLogout);
+            if (Config.Enabled)
+            {
+                EventSink.Logout += OnPlayerLogout;
 
-            if (Config.AllowPlayerToggle)
-                CommandSystem.Register("AutoSheathe", AccessLevel.Player, new CommandEventHandler(OnToggleAutoSheathe));
+                if (Config.AllowPlayerToggle)
+                    CommandSystem.Register("AutoSheathe", AccessLevel.Player, new CommandEventHandler(OnToggleAutoSheathe));
+            }
         }
 
         [Usage("AutoSheathe")]
         [Description("Enables or disables the weapon auto-sheathe feature.")]
-        private static void OnToggleAutoSheathe(CommandEventArgs e)
+        static void OnToggleAutoSheathe(CommandEventArgs e)
         {
             Mobile m = e.Mobile;
 
@@ -57,12 +66,12 @@ namespace Server.Items
             }
         }
 
-        private static void OnPlayerLogout(LogoutEventArgs args)
+        static void OnPlayerLogout(LogoutEventArgs args)
         {
             PlayerWeapons.Remove(args.Mobile.Serial.Value);
         }
 
-        private static bool AllowedToKeep(Item item)
+        static bool AllowedToKeep(object item)
         {
             Type t = item.GetType();
 
@@ -100,7 +109,7 @@ namespace Server.Items
                     m.EquipItem(lastWeapon);
 
                     if (Config.SendOverheadMessage)
-                        m.LocalOverheadMessage(Network.MessageType.Emote, m.EmoteHue, false, "*Unsheathes Weapon*");
+                        m.LocalOverheadMessage(MessageType.Emote, m.EmoteHue, false, "*Unsheathes Weapon*");
                 }
             }
             else
@@ -111,7 +120,7 @@ namespace Server.Items
                     PlayerWeapons[key] = weapon;
 
                     if (Config.SendOverheadMessage)
-                        m.LocalOverheadMessage(Network.MessageType.Emote, m.EmoteHue, false, "*Sheathes Weapon*");
+                        m.LocalOverheadMessage(MessageType.Emote, m.EmoteHue, false, "*Sheathes Weapon*");
                 }
             }
         }
