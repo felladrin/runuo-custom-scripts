@@ -1,4 +1,4 @@
-﻿// AutoDefend v1.4.0
+﻿// Auto Sheathe Weapon v1.4.0
 // Author: Felladrin
 // Started: 2013-08-14
 // Updated: 2016-01-17
