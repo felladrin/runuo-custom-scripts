@@ -1,22 +1,26 @@
-//   ___|========================|___
-//   \  |  Written by Felladrin  |  /   This script was released on RunUO Forums under the GPL licensing terms.
-//    > |       July 2013        | <
-//   /__|========================|__\   [Alternate Command] - Current version: 1.0 (July 30, 2013)
+// Alt Command v1.1.0
+// Author: Felladrin
+// Started: 2013-07-30
+// Updated: 2016-01-17
 
-namespace Server.Commands.Generic
+using Server;
+using Server.Commands;
+using Server.Commands.Generic;
+
+namespace Felladrin.Commands
 {
-    public class AltCommand : BaseCommand
+    public class Alt : BaseCommand
     {
         public static void Initialize()
         {
-            TargetCommands.Register(new AltCommand());
+            TargetCommands.Register(new Alt());
         }
 
-        public AltCommand()
+        public Alt()
         {
             AccessLevel = AccessLevel.Counselor;
             Supports = CommandSupport.All;
-            Commands = new string[] { "Alt" };
+            Commands = new [] { "Alt" };
             ObjectTypes = ObjectTypes.Both;
             Usage = "Alt <propertyName> [...]";
             Description = "Alternates between True or False one or more property by name of a targeted object.";
