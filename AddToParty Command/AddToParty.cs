@@ -1,5 +1,4 @@
 // AddToParty Command v1.1.0
-// Description: Allows players to add new party members from anywhere.
 // Author: Felladrin
 // Created at 2013-11-21
 // Updated at 2016-01-01
