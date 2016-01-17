@@ -123,14 +123,6 @@ namespace Felladrin.Commands
             public static readonly int EntryHeight = PropsConfig.EntryHeight;
             public static readonly int BorderSize = PropsConfig.BorderSize;
 
-            static bool PrevLabel, NextLabel;
-
-            static readonly int PrevLabelOffsetX = PrevWidth + 1;
-            static readonly int PrevLabelOffsetY = 0;
-
-            static readonly int NextLabelOffsetX = -29;
-            static readonly int NextLabelOffsetY = 0;
-
             static readonly int EntryWidth = 180;
             static readonly int EntryCount = 15;
 
@@ -306,9 +298,6 @@ namespace Felladrin.Commands
                 if (page > 0)
                 {
                     AddButton(x + PrevOffsetX, y + PrevOffsetY, PrevButtonID1, PrevButtonID2, 1, GumpButtonType.Reply, 0);
-
-                    if (PrevLabel)
-                        AddLabel(x + PrevLabelOffsetX, y + PrevLabelOffsetY, TextHue, "Previous");
                 }
 
                 x += PrevWidth + OffsetSize;
@@ -319,9 +308,6 @@ namespace Felladrin.Commands
                 if ((page + 1) * EntryCount < m_Mobiles.Count)
                 {
                     AddButton(x + NextOffsetX, y + NextOffsetY, NextButtonID1, NextButtonID2, 2, GumpButtonType.Reply, 1);
-
-                    if (NextLabel)
-                        AddLabel(x + NextLabelOffsetX, y + NextLabelOffsetY, TextHue, "Next");
                 }
 
                 for (int i = 0, index = page * EntryCount; i < EntryCount && index < m_Mobiles.Count; ++i, ++index)
