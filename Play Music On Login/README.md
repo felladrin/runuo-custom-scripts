@@ -1,32 +1,32 @@
-## Introduction ##
+## Play Music On Login
 
 I've made this one to break the loop from the client start music. Forcing the server to play a town theme for the players when they join the game.
 
-## Installation ##
+### Installation
 
 Just drop this script somewhere in you Scripts folder.
 
-## Configuration ##
+### Configuration
 
-    public static bool PlayRandomMusic = true;               // Should we play a random music from the list?
-    public static MusicName SingleMusic = MusicName.Stones2; // Music to be played if PlayRandomMusic = false.
+    bool Enabled = true;                          // Is this system enabled?
+    bool PlayRandomMusic = true;                  // Should we play a random music from the list?
+    MusicName SingleMusic = MusicName.Stones2;    // Music to be played if PlayRandomMusic = false.
 
 By default, it will play a random music from the list.
 
-	public static MusicName[] MusicList = new MusicName[]
-	{
-	    MusicName.Stones2,
-	    MusicName.Magincia,
-	    MusicName.Minoc,
-	    MusicName.Ocllo,
-	    MusicName.Skarabra,
-	    MusicName.Trinsic,
-	    MusicName.Yew,
-	    MusicName.InTown01,
-	    MusicName.Moonglow,
-	    MusicName.MinocNegative,
-	    MusicName.ValoriaShips
-	};
+    public static MusicName[] MusicList = {
+          MusicName.Stones2,
+          MusicName.Magincia,
+          MusicName.Minoc,
+          MusicName.Ocllo,
+          MusicName.Skarabra,
+          MusicName.Trinsic,
+          MusicName.Yew,
+          MusicName.InTown01,
+          MusicName.Moonglow,
+          MusicName.MinocNegative,
+          MusicName.ValoriaShips
+    };
 
 But if you set `PlayRandomMusic = false` it will play the classic Stones song.
 

@@ -1,20 +1,39 @@
-﻿//   ___|========================|___
-//   \  |  Written by Felladrin  |  /   [Play Music On Login] - Current version: 1.1 (September 01, 2013)
-//    > |        July 2013       | <
-//   /__|========================|__\   Description: Plays a specific or random music for players on login.
+﻿// Play Music On Login v1.2.0
+// Author: Felladrin
+// Started: 2013-07-21
+// Updated: 2016-01-18
 
-namespace Server.Network
+using Server;
+using Server.Network;
+
+namespace Felladrin.Automations
 {
-    public class PlayMusicOnLogin
+    public static class PlayMusicOnLogin
     {
         public static class Config
         {
-            public static bool PlayRandomMusic = true;               // Should we play a random music from the list?
-            public static MusicName SingleMusic = MusicName.Stones2; // Music to be played if PlayRandomMusic = false.
+            public static bool Enabled = true;                          // Is this system enabled?
+            public static bool PlayRandomMusic = true;                  // Should we play a random music from the list?
+            public static MusicName SingleMusic = MusicName.Stones2;    // Music to be played if PlayRandomMusic = false.
+        }
+
+        public static void Initialize()
+        {
+            if (Config.Enabled)
+                EventSink.Login += OnLogin;
+        }
+
+        static void OnLogin(LoginEventArgs args)
+        {
+            MusicName toPlay = Config.SingleMusic;
+
+            if (Config.PlayRandomMusic)
+                toPlay = MusicList[Utility.Random(MusicList.Length)];
+
+            args.Mobile.Send(PlayMusic.GetInstance(toPlay));
         }
         
-        public static MusicName[] MusicList = new MusicName[]
-        {
+        public static MusicName[] MusicList = {
             MusicName.Stones2,
             MusicName.Magincia,
             MusicName.Minoc,
@@ -27,20 +46,5 @@ namespace Server.Network
             MusicName.MinocNegative,
             MusicName.ValoriaShips
         };
-        
-        public static void Initialize()
-        {
-            EventSink.Login += new LoginEventHandler(onLogin);
-        }
-
-        private static void onLogin(LoginEventArgs args)
-        {
-            MusicName toPlay = Config.SingleMusic;
-
-            if (Config.PlayRandomMusic)
-                toPlay = MusicList[Utility.Random(MusicList.Length)];
-            
-            args.Mobile.Send(PlayMusic.GetInstance(toPlay));
-        }
     }
 }
