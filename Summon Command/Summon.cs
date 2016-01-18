@@ -20,7 +20,7 @@ namespace Felladrin.Commands
             public static bool Enabled = true;                                    // Is this command enabled?
             public static bool CanBeUsedInCombat = false;                         // Can they use this command while in combat?
             public static bool CanBeUsedWhileDead = false;                        // Can they use this command while they are dead?
-            public static TimeSpan UseDelay = TimeSpan.FromMinutes(1);            // How long players need to wait before using the command again?
+            public static TimeSpan Cooldown = TimeSpan.FromMinutes(1);            // How long players need to wait before using the command again?
             public static TimeSpan AutoRefuseDelay = TimeSpan.FromSeconds(30);    // How long should the gump be displayed for the summoned?
         }
 
@@ -51,9 +51,9 @@ namespace Felladrin.Commands
                 return;
             }
 
-            if (LastUsed.ContainsKey(key) && (DateTime.Now - Config.UseDelay) < LastUsed[key])
+            if (LastUsed.ContainsKey(key) && (DateTime.Now - Config.Cooldown) < LastUsed[key])
             {
-                TimeSpan timeToWait = Config.UseDelay - (DateTime.Now - LastUsed[key]);
+                TimeSpan timeToWait = Config.Cooldown - (DateTime.Now - LastUsed[key]);
                 from.SendMessage(38, "You still need to wait {0:N0} seconds before summoning another player.", timeToWait.TotalSeconds);
                 return;
             }
