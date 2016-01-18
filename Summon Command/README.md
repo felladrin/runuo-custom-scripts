@@ -20,3 +20,8 @@ You can configure it on the top of the script:
 
 In-game, just type `[Summon` to see a list of players available to summon.  
 You can also use `[Summon <name>` to filter the list or directly summon a specific player.
+
+### Screenshot
+
+![](screenshot.png)  
+*Gump seen by the summoned.*
