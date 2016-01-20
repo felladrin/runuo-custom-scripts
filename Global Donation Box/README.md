@@ -20,10 +20,10 @@ To pick up items from the box is normal: come close the box, open it, look for s
 
 Just drop this script anywhere inside your Scripts folder.
 
-## Commands
+Once you restart the shard, login with an Administrator account, go to the location where you want to place the box then use the command **[DonationBox**.
 
-> **[Donate**  
-Player Command - Used to donate items from your backpack.
+## Commands Available
 
-> **[DonationBox**  
-Administrator Command - Places the Donation Box at your current location.
+> **[Donate** - Player Command - Used to donate items from your backpack.
+
+> **[DonationBox** - Administrator Command - Places the Donation Box at your current location.
