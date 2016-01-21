@@ -1,4 +1,4 @@
-// Time Command v1.1.0
+// TurnBackToDeed Command v1.1.0
 // Author: Felladrin
 // Started: 2008-01-13
 // Updated: 2016-01-21
