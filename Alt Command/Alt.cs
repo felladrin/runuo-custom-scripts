@@ -1,7 +1,7 @@
-// Alt Command v1.1.0
+// Alt Command v1.1.1
 // Author: Felladrin
 // Started: 2013-07-30
-// Updated: 2016-01-17
+// Updated: 2016-01-21
 
 using Server;
 using Server.Commands;
@@ -22,7 +22,7 @@ namespace Felladrin.Commands
             Supports = CommandSupport.All;
             Commands = new [] { "Alt" };
             ObjectTypes = ObjectTypes.Both;
-            Usage = "Alt <propertyName> [...]";
+            Usage = "Alt <property name> [...]";
             Description = "Alternates between True or False one or more property by name of a targeted object.";
         }
 
@@ -34,7 +34,7 @@ namespace Felladrin.Commands
                 {
                     string result = Properties.GetValue(e.Mobile, obj, e.GetString(i));
 
-                    if (result == "Property not found." || result == "Property is write only." || result.StartsWith("Getting this property"))
+                    if (result.EndsWith("not found.") || result.EndsWith("is write only.") || result.StartsWith("Getting this property"))
                     {
                         LogFailure(result);
                     }
@@ -43,7 +43,7 @@ namespace Felladrin.Commands
                         string setResult = Properties.SetValue(e.Mobile, obj, e.GetString(i), "False");
 
                         if (setResult == "Property has been set.")
-                            AddResponse(setResult);
+                            AddResponse("The property '" + e.GetString(i) + "' has been set to 'false'.");
                         else
                             LogFailure(setResult);
                     }
@@ -52,7 +52,7 @@ namespace Felladrin.Commands
                         string setResult = Properties.SetValue(e.Mobile, obj, e.GetString(i), "True");
 
                         if (setResult == "Property has been set.")
-                            AddResponse(setResult);
+                            AddResponse("The property '" + e.GetString(i) + "' has been set to 'true'.");
                         else
                             LogFailure(setResult);
                     }
@@ -64,7 +64,7 @@ namespace Felladrin.Commands
             }
             else
             {
-                LogFailure("Format: Alt <propertyName>");
+                LogFailure("Format: Alt <property name>");
             }
         }
     }
