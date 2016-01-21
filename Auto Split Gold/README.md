@@ -8,11 +8,12 @@ Players not in party won't be affected.
 
 ## Install
 
-1\. Drop this script anywhere inside your Scripts folder.  
-2\. On `Scripts/Items/Misc/Corpses/Corpse.cs` find the method:
+Drop this script anywhere inside your Scripts folder.
+
+Open `Scripts/Items/Misc/Corpses/Corpse.cs` and find the method:
 
         CheckLift(Mobile from, Item item, ref LRReason reject)
 
-   Then, **above** its **last 'return' statement**, add the following line:
+Then, **above** its **last 'return' statement**, add the following line:
 
         if (Felladrin.Automations.AutoSplitGold.Split(from, item)) return false;

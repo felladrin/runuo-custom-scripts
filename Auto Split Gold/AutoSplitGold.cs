@@ -5,7 +5,7 @@
 
 // Istallation:
 // On Scripts/Items/Misc/Corpses/Corpse.cs find the method:
-// CheckLift( Mobile from, Item item, ref LRReason reject )
+// CheckLift(Mobile from, Item item, ref LRReason reject)
 // Then, above its last 'return' statement, add the following line:
 // if (Felladrin.Automations.AutoSplitGold.Split(from, item)) return false;
 
