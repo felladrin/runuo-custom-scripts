@@ -1,6 +1,6 @@
 # Running Fatigue
 
-With this script, players get tired regardless of their level of Focus while running by foot.
+With this script, characters get tired regardless of their level when they run by foot.
 
 ![](screenshot.png)
 
