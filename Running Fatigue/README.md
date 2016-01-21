@@ -1,29 +1,36 @@
-## Introduction ##
+# Running Fatigue
 
-Something I like in some games is that you can't run all day long, even if you are an athlete. That's why the mounts are so important.
-
-**With this script your players get tired regardless of their level of Focus.**
+With this script, players get tired regardless of their level of Focus while running by foot.
 
 ![](http://i.imgur.com/MLma4xf.png)
 
-## Installation ##
+As it can unbalance UO combat, it's recommended only for RP shards.
 
-Just drop it somewhere in your Scripts folder.
+Staff members are not affected.
 
-## Some Notes ##
+## Install
 
-As it can unbalance the UO Combat, it's recommended only for RP shards.
+Open `Scripts/Misc/WeightOverloading.cs` and, inside *EventSink_Movement* method, find:
 
-The system only affect players. No staff members will be affected.
+	if (((from.Stam * 100) / Math.Max(from.StamMax, 1)) < 10)
+			--from.Stam;
 
-Mounts are not affected by this system. They can still run all they long. So do the players, while mounted.
-
-If you want to get rid of the message "You are too fatigued to move" when you reach 0 stamina, you can edit `WeightOverloading.cs`. Just comment/remove this part:
-
-	if ( from.Stam == 0 )
+	if (from.Stam == 0)
 	{
-	    from.SendLocalizedMessage( 500110 ); // You are too fatigued to move.
-	    e.Blocked = true;
-	    return;
+			from.SendLocalizedMessage(500110); // You are too fatigued to move.
+			e.Blocked = true;
+			return;
 	}
-  
+
+	if (from is PlayerMobile)
+	{
+			int amt = (from.Mounted ? 48 : 16);
+			PlayerMobile pm = (PlayerMobile)from;
+
+			if ((++pm.StepsTaken % amt) == 0)
+					--from.Stam;
+	}
+
+Replace this block with the following:
+
+	Felladrin.Automations.RunningFatigue.Apply(from);

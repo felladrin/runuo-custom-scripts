@@ -1,45 +1,33 @@
-﻿//   ___|========================|___
-//   \  |  Written by Felladrin  |  /   This script was released on RunUO Community under the GPL licensing terms.
-//    > |      August 2013       | <
-//   /__|========================|__\   [Running Fatigue] - Current version: 1.0 (August 12, 2013)
+﻿// Running Fatigue v1.1.0
+// Author: Felladrin
+// Started: 2013-08-12
+// Updated: 2016-01-21
 
-namespace Server.Mobiles
+using System;
+using Server;
+using Server.Mobiles;
+
+namespace Felladrin.Automations
 {
-    public class RunningFatigue
+    public static class RunningFatigue
     {
-        public static void Initialize()
+        public static void Apply(Mobile from)
         {
-            EventSink.Movement += new MovementEventHandler(EventSink_Movement);
-        }
+            var pm = from as PlayerMobile;
 
-        public static void EventSink_Movement(MovementEventArgs e)
-        {
-            if (!(e.Mobile is PlayerMobile) || e.Mobile.AccessLevel > AccessLevel.Player || e.Mobile.Mount != null || !e.Mobile.Alive)
-                return;
-
-            if ((e.Direction & Direction.Running) != 0)
+            if (pm != null)
             {
-                PlayerMobile pm = e.Mobile as PlayerMobile;
+                pm.StepsTaken++;
 
-                int steps;
+                bool isRunning = (pm.Direction & Direction.Running) != 0;
 
-                if (pm.Skills.Focus.Value < 20)
-                    steps = 8;
-                else if (pm.Skills.Focus.Value < 40)
-                    steps = 7;
-                else if (pm.Skills.Focus.Value < 60)
-                    steps = 6;
-                else if (pm.Skills.Focus.Value < 80)
-                    steps = 4;
-                else
-                    steps = 3;
+                int stepsPerStam = Math.Max(10 - (int)(pm.Skills.Focus.Value / 7), 3);
 
-                if ((pm.StepsTaken % steps) == 0)
+                bool movedEnough = (pm.StepsTaken % stepsPerStam) == 0;
+
+                if (!pm.Mounted && isRunning && movedEnough)
                 {
-                    --pm.Stam;
-
-                    if (pm.Stam == 1)
-                        pm.PlaySound(pm.Female ? 816 : 1090);
+                    from.Stam--;
                 }
             }
         }
