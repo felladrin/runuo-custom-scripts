@@ -2,7 +2,7 @@
 
 With this script, players get tired regardless of their level of Focus while running by foot.
 
-![](http://i.imgur.com/MLma4xf.png)
+![](screenshot.png)
 
 As it can unbalance UO combat, it's recommended only for RP shards.
 
