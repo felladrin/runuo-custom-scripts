@@ -10,7 +10,9 @@ Staff members are not affected.
 
 ## Install
 
-Open `Scripts/Misc/WeightOverloading.cs` and, inside *EventSink_Movement* method, find:
+Drop this script anywhere inside your Scripts folder.
+
+Then open `Scripts/Misc/WeightOverloading.cs` and, inside *EventSink_Movement* method, find:
 
 	if (((from.Stam * 100) / Math.Max(from.StamMax, 1)) < 10)
 			--from.Stam;
