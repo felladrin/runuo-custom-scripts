@@ -16,8 +16,8 @@ namespace Felladrin.Mobiles
         {
             Title = "the peacemaker";
 
-            Fame = 6000;
-            Karma = 3000;
+            Fame = 1000;
+            Karma = 1000;
 
             SpeechHue = Utility.RandomDyedHue();
 
