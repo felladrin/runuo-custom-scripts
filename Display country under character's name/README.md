@@ -16,22 +16,19 @@ Then open `PlayerMobile.cs` and find the *Target Block*:
 
 **Above** the *Target Block* (Outside the GetProperties method), add:
 
-    #region Display country under character's name
-    string m_Country;
-    bool m_TriedToGetCountry;
+    #region Display country under character name
+    [CommandProperty(AccessLevel.GameMaster)]
     public string Country
     {
         get
         {
-            if (!m_TriedToGetCountry && m_Country == null)
-            {
+            if (m_Country == null && Language != null)
                 m_Country = Felladrin.Utilities.Country.GetNameFromCode(Language);
-                m_TriedToGetCountry = true;
-            }
-    
+
             return m_Country;
         }
     }
+    string m_Country;
     #endregion
 
 **Below** the *Target Block* (Inside the GetProperties method), add:
