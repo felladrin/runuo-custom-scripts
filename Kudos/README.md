@@ -17,10 +17,10 @@ You can configure this system at the top of the script.
 
 ## Screenshots
 
-![\[IMG\]][2]<br/>
+![]][2]<br/>
 _Exchanging kudos at the customizable vendor_
 
-![\[IMG\]][3]<br/>
+![]][3]<br/>
 _By default, players receive their kudos on their bankbox_
 
 ## Exchange price suggestion ##
@@ -32,5 +32,5 @@ _By default, players receive their kudos on their bankbox_
 - **Huge Items:** From 4K to 5K kudos
 
    [1]: http://www.runuo.com/community/threads/runu-o-2-0-rc1-rc2-the-complete-customizable-vendor.91051/
-   [2]: http://i.imgur.com/7k2ybTv.png
-   [3]: http://i.imgur.com/L8o4YS3.png
+   [2]: screenshot1.png
+   [3]: screenshot2.png

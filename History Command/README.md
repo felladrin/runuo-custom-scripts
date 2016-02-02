@@ -4,7 +4,7 @@ Player command to open a gump with the history of everything they've said and he
 
 If you ever needed to read the journal, but couldn't understand anything because of the awful speech hue they've chosen, this script is for you!
 
-![](http://i.imgur.com/7U3itle.png) ![](http://i.imgur.com/AplCcsZ.png)
+![](screenshot1.png) ![](screenshot2.png)
 
 It's based on the SpeechLog component and requires it to be activated (Note: it comes activated by default).
 
