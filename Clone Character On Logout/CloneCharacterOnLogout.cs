@@ -1,7 +1,7 @@
-﻿// Clone Character On Logout v1.1.0
+﻿// Clone Character On Logout v1.1.1
 // Author: Felladrin
 // Started: 2016-01-25
-// Updated: 2016-02-02
+// Updated: 2016-02-04
 
 using System.Collections.Generic;
 using System.Reflection;
@@ -49,7 +49,7 @@ namespace Felladrin.Automations
                 if (itemOriginal.Parent == m && itemOriginal.Layer != Layer.Mount)
                     characterClone.AddItem(new ItemClone(itemOriginal));
 
-            if (m.Mounted)
+            if (m.Mounted && m.Mount is BaseMount)
                 new MountClone((BaseMount)m.Mount).Rider = characterClone;
         }
 
