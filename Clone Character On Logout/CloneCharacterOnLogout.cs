@@ -1,7 +1,7 @@
-﻿// Clone Character On Logout v1.1.1
+﻿// Clone Character On Logout v1.1.2
 // Author: Felladrin
 // Started: 2016-01-25
-// Updated: 2016-02-04
+// Updated: 2016-02-05
 
 using System.Collections.Generic;
 using System.Reflection;
@@ -49,8 +49,16 @@ namespace Felladrin.Automations
                 if (itemOriginal.Parent == m && itemOriginal.Layer != Layer.Mount)
                     characterClone.AddItem(new ItemClone(itemOriginal));
 
-            if (m.Mounted && m.Mount is BaseMount)
-                new MountClone((BaseMount)m.Mount).Rider = characterClone;
+            if (m.Mounted)
+            {
+                var baseMount = m.Mount as BaseMount;
+                var etherealMount = m.Mount as EtherealMount;
+
+                if (baseMount != null)
+                    new MountClone(baseMount).Rider = characterClone;
+                else if (etherealMount != null)
+                    new EtherealMountClone(etherealMount).Rider = characterClone;
+            }
         }
 
         static void DeleteClonesOf(Mobile m)
@@ -181,6 +189,30 @@ namespace Felladrin.Automations
             }
 
             public MountClone(Serial serial) : base(serial) { }
+
+            public override void Serialize(GenericWriter writer)
+            {
+                base.Serialize(writer);
+                writer.Write(0);
+            }
+
+            public override void Deserialize(GenericReader reader)
+            {
+                base.Deserialize(reader);
+                reader.ReadInt();
+            }
+        }
+
+        public class EtherealMountClone : EtherealMount
+        {
+            public EtherealMountClone(EtherealMount original) : base(original.RegularID, original.MountedID)
+            {
+                foreach (var property in (typeof(EtherealMount)).GetProperties())
+                    if (property.CanRead && property.CanWrite && property.Name != "Rider")
+                        property.SetValue(this, property.GetValue(original, null), null);
+            }
+
+            public EtherealMountClone(Serial serial) : base(serial) { }
 
             public override void Serialize(GenericWriter writer)
             {
