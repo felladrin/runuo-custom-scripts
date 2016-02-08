@@ -1,8 +1,9 @@
-// Recall Command v1.4.0
+// Recall Command v1.4.1
 // Author: Felladrin
-// Created at 2010-06-20
-// Updated at 2016-01-23
+// Started: 2010-06-20
+// Updated: 2016-02-08
 
+using System;
 using System.Collections.Generic;
 using Server;
 using Server.Commands;
@@ -25,6 +26,7 @@ namespace Felladrin.Commands
             public static bool AffectOnlyControlledFollowers = true;                 // Should we only teleport the player's followers that are controlled?
             public static Map TargetMap = Map.Trammel;                               // To what map should we teleport the player?
             public static Point3D TargetLocation = new Point3D(1434, 1702, 9);       // To what coordinates should we teleport the player?
+		    public static TimeSpan CombatHeatDelay = TimeSpan.FromSeconds(30.0);     // What's the delay for they to be considered out of combat?
         }
 
         public static void Initialize()
@@ -45,7 +47,7 @@ namespace Felladrin.Commands
                 return;
             }
 
-            if (!Config.AllowUsageIfIsInCombat)
+            if (!Config.AllowUsageIfIsInCombat && IsInCombat(m))
             {
                 m.SendMessage("You can't recall during the heat of battle!");
                 return;
@@ -110,6 +112,19 @@ namespace Felladrin.Commands
             Effects.SendLocationEffect(new Point3D(m.X + 1, m.Y + 1, m.Z + 7), m.Map, 0x3728, 13);
             Effects.SendLocationEffect(new Point3D(m.X + 1, m.Y + 1, m.Z + 3), m.Map, 0x3728, 13);
             Effects.SendLocationEffect(new Point3D(m.X + 1, m.Y + 1, m.Z - 1), m.Map, 0x3728, 13);
+        }
+
+        static bool IsInCombat(Mobile m)
+        {
+            foreach (var info in m.Aggressed)
+                if ((DateTime.UtcNow - info.LastCombatTime) < Config.CombatHeatDelay)
+                    return true;
+
+            foreach (var info in m.Aggressors)
+                if ((DateTime.UtcNow - info.LastCombatTime) < Config.CombatHeatDelay)
+                    return true;
+
+            return false;
         }
     }
 }
