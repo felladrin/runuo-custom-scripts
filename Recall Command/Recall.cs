@@ -26,7 +26,7 @@ namespace Felladrin.Commands
             public static bool AffectOnlyControlledFollowers = true;                 // Should we only teleport the player's followers that are controlled?
             public static Map TargetMap = Map.Trammel;                               // To what map should we teleport the player?
             public static Point3D TargetLocation = new Point3D(1434, 1702, 9);       // To what coordinates should we teleport the player?
-		    public static TimeSpan CombatHeatDelay = TimeSpan.FromSeconds(30.0);     // What's the delay for they to be considered out of combat?
+            public static TimeSpan CombatHeatDelay = TimeSpan.FromSeconds(30.0);     // What's the delay for they to be considered out of combat?
         }
 
         public static void Initialize()
