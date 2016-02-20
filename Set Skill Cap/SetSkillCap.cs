@@ -1,8 +1,9 @@
-﻿// Set Skill Cap v1.0.2
+﻿// Set Skill Cap v1.0.3
 // Author: Felladrin
 // Started: 2015-12-20
-// Updated: 2016-01-22
+// Updated: 2016-02-20
 
+using System;
 using Server;
 
 namespace Felladrin.Automations
@@ -25,68 +26,56 @@ namespace Felladrin.Automations
                 EventSink.Login += OnLogin;
             }
         }
-        
+
         static void OnLogin(LoginEventArgs args)
         {
-            Mobile m = args.Mobile;
+            var m = args.Mobile;
             
             if (m.AccessLevel > AccessLevel.Player)
-            	return;
+                return;
             
-            Skills skills = m.Skills;
+            var skills = m.Skills;
 
-            foreach (Skill skill in m.Skills)
-                skill.CapFixedPoint = Config.IndividualSkillCap;
-                
-            for (int i = 0; i < skills.Length; ++i)
-                if (skills[i].BaseFixedPoint > Config.IndividualSkillCap)
-                    skills[i].BaseFixedPoint = Config.IndividualSkillCap;
+            for (int i = 0; i < skills.Length; i++)
+            {
+                skills[i].CapFixedPoint = Config.IndividualSkillCap;
+                skills[i].BaseFixedPoint = Math.Min(skills[i].BaseFixedPoint, skills[i].CapFixedPoint);
+            }
             
             m.SkillsCap = Config.TotalSkillCap;
             
-            for (int j = 0; (m.SkillsTotal > m.SkillsCap) && (j < skills.Length); ++j)
+            for (int j = 0; (m.SkillsTotal > m.SkillsCap) && (j < skills.Length); j++)
             {
-            	double diff = ((m.SkillsTotal - m.SkillsCap) / 10) + 1;
+                double diff = ((m.SkillsTotal - m.SkillsCap) / 10) + 1;
                 
                 if (skills[SkillName.Focus].Base > 0)
                 {
-                    skills[SkillName.Focus].Base -= diff;
-                    
-                    if (skills[SkillName.Focus].Base < 0)
-                        skills[SkillName.Focus].Base = 0;
-                    
+                    skills[SkillName.Focus].Base = Math.Max(skills[SkillName.Focus].Base - diff, 0);
                     continue;
                 }
                 
                 if (skills[SkillName.Meditation].Base > 0)
                 {
-                    skills[SkillName.Meditation].Base -= diff;
-                    
-                    if (skills[SkillName.Meditation].Base < 0)
-                        skills[SkillName.Meditation].Base = 0;
-                    
+                    skills[SkillName.Meditation].Base = Math.Max(skills[SkillName.Meditation].Base - diff, 0);
                     continue;
                 }
                 
                 int lowestSkillId = -1;
                 double lowestSkillBase = Config.IndividualSkillCap;
                 
-                for ( int i = 0; i < skills.Length; ++i )
+                for (int i = 0; i < skills.Length; i++)
                 {
                     if (skills[i].Base > 0 && skills[i].Base < lowestSkillBase)
                     {
-                        lowestSkillId = i;
+                        lowestSkillId = Math.Max(lowestSkillId, i);
                         lowestSkillBase = skills[i].Base;
                     }
                 }
                 
                 if (lowestSkillId == -1)
                     break;
-                
-                skills[lowestSkillId].Base -= diff;
-                
-                if (skills[lowestSkillId].Base < 0)
-                    skills[lowestSkillId].Base = 0;
+
+                skills[lowestSkillId].Base = Math.Max(skills[lowestSkillId].Base - diff, 0);
             }
         }
     }
