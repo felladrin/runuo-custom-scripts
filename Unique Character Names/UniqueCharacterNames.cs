@@ -1,7 +1,7 @@
-// Unique Character Names v1.1.1
+// Unique Character Names v1.1.2
 // Author: Felladrin
 // Started: 2013-08-01
-// Updated: 2016-01-24
+// Updated: 2016-07-28
 
 using System;
 using Server;
@@ -36,7 +36,7 @@ namespace Felladrin.Automations
             if (m.AccessLevel != AccessLevel.Player)
                 return true;
 
-            if (m.RawName == "Generic Player" || !NameVerification.Validate(m.RawName, 2, 16, true, false, true, 1, NameVerification.SpaceDashPeriodQuote))
+            if (m.RawName == null || m.RawName.Trim() == String.Empty || m.RawName == "Generic Player" || !NameVerification.Validate(m.RawName, 2, 16, true, false, true, 1, NameVerification.SpaceDashPeriodQuote))
                 return false;
 
             foreach (Mobile otherPlayer in World.Mobiles.Values)
