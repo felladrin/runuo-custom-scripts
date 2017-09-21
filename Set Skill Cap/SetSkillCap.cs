@@ -15,6 +15,10 @@ namespace Felladrin.Automations
             public static bool Enabled = true;             // Is this system enabled?
             public static int IndividualSkillCap = 100;    // Cap for each skill. Default: 100.
             public static int TotalSkillCap = 700;         // Cap for the sum of all skills. Default: 700.
+            
+            // optional setting to prevent changing a player's Cap from being reset
+            // In the even that skill cap is set to 100 and player uses Powerscroll to raise cap to 120, that skill cap will be reset to 100 on login
+            public static bool OverrideExistingValue = true;  
         }
 
         public static void Initialize()
@@ -38,8 +42,11 @@ namespace Felladrin.Automations
 
             for (int i = 0; i < skills.Length; i++)
             {
-                skills[i].CapFixedPoint = Config.IndividualSkillCap;
-                skills[i].BaseFixedPoint = Math.Min(skills[i].BaseFixedPoint, skills[i].CapFixedPoint);
+                if( skills[i].CapFixedPoint > IndividualSkillCap & OverrideExistingValue )
+                {
+                    skills[i].CapFixedPoint = Config.IndividualSkillCap;
+                    skills[i].BaseFixedPoint = Math.Min(skills[i].BaseFixedPoint, skills[i].CapFixedPoint);
+                }
             }
             
             m.SkillsCap = Config.TotalSkillCap;
