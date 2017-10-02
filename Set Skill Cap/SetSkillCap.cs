@@ -1,7 +1,8 @@
-﻿// Set Skill Cap v1.0.3
+// Set Skill Cap v1.0.4
 // Author: Felladrin
+// Contributor: zerodowned
 // Started: 2015-12-20
-// Updated: 2016-02-20
+// Updated: 2017-10-02
 
 using System;
 using Server;
@@ -12,9 +13,13 @@ namespace Felladrin.Automations
     {
         public static class Config
         {
-            public static bool Enabled = true;             // Is this system enabled?
-            public static int IndividualSkillCap = 100;    // Cap for each skill. Default: 100.
-            public static int TotalSkillCap = 700;         // Cap for the sum of all skills. Default: 700.
+            public static bool Enabled = true;                // Is this system enabled?
+            public static int IndividualSkillCap = 100;       // Cap for each skill. Default: 100.
+            public static int TotalSkillCap = 700;            // Cap for the sum of all skills. Default: 700.
+            public static bool OverrideExistingValues = true; // Set to False to prevent a player's cap from being reset
+                                                              // in the event that skill cap is set to 100 and player uses
+                                                              // Powerscroll to raise cap to 120, so the skill cap won't be
+                                                              // reset to 100 on login.
         }
 
         public static void Initialize()
@@ -38,7 +43,9 @@ namespace Felladrin.Automations
 
             for (int i = 0; i < skills.Length; i++)
             {
-                skills[i].CapFixedPoint = Config.IndividualSkillCap;
+                if (skills[i].CapFixedPoint != Config.IndividualSkillCap && Config.OverrideExistingValues)
+                    skills[i].CapFixedPoint = Config.IndividualSkillCap;
+
                 skills[i].BaseFixedPoint = Math.Min(skills[i].BaseFixedPoint, skills[i].CapFixedPoint);
             }
             
