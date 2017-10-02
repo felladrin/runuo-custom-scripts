@@ -43,10 +43,8 @@ namespace Felladrin.Automations
 
             for (int i = 0; i < skills.Length; i++)
             {
-                if((skills[i].CapFixedPoint > Config.IndividualSkillCap && Config.OverrideExistingValues) || (skills[i].CapFixedPoint < Config.IndividualSkillCap))
-                {
+                if (skills[i].CapFixedPoint != Config.IndividualSkillCap && Config.OverrideExistingValues)
                     skills[i].CapFixedPoint = Config.IndividualSkillCap;
-                }
 
                 skills[i].BaseFixedPoint = Math.Min(skills[i].BaseFixedPoint, skills[i].CapFixedPoint);
             }
